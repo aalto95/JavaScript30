@@ -27,6 +27,8 @@
     */
     :root {
       --base-color: brown;
+      --blur: 0px;
+      --border-width: 0px;
     }
 
 
@@ -52,16 +54,30 @@
     }
 
     img {
-      border: 20px var(--base-color) solid;
+      filter: blur(var(--blur));
+      border: var(--border-width) var(--base-color) solid;
     }
   </style>
 
   <script>
     let root = document.documentElement;
+
+    root.style.setProperty('--border-width', document.getElementById('spacing').value + 'px');
+    document.getElementById('spacing').addEventListener('input', (e) => {
+      root.style.setProperty('--border-width', e.target.value + 'px');
+    })
+
+    root.style.setProperty('--blur', document.getElementById('blur').value + 'px');
+    document.getElementById('blur').addEventListener('input', (e) => {
+      root.style.setProperty('--blur', e.target.value + 'px');
+    })
+
     root.style.setProperty('--base-color', document.getElementById('base').value);
     document.getElementById('base').addEventListener('input', (e) => {
       root.style.setProperty('--base-color', e.target.value);
     });
+
+
   </script>
 
 </body>
