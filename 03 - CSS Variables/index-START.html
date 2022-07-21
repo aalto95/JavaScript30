@@ -25,6 +25,10 @@
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+      --base-color: brown;
+    }
+
 
     body {
       text-align: center;
@@ -42,9 +46,22 @@
     input {
       width: 100px;
     }
+
+    .hl {
+      color: var(--base-color);
+    }
+
+    img {
+      border: 20px var(--base-color) solid;
+    }
   </style>
 
   <script>
+    let root = document.documentElement;
+    root.style.setProperty('--base-color', document.getElementById('base').value);
+    document.getElementById('base').addEventListener('input', (e) => {
+      root.style.setProperty('--base-color', e.target.value);
+    });
   </script>
 
 </body>
