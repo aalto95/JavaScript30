@@ -19,6 +19,13 @@ const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb
 
 let cities = []
 
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    const regex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex)
+  })
+}
+
 fetch(endpoint)
   .then((response) => response.json())
   .then((data) => {
@@ -27,23 +34,22 @@ fetch(endpoint)
   .then(() => {
     document.querySelector('.search').addEventListener('input', (e) => {
       document.querySelector('.suggestions').innerHTML = '';
-      cities.forEach((city) => {
-        if (city.city.toUpperCase().includes(e.currentTarget.value.toUpperCase()) || city.state.toUpperCase().includes(e.currentTarget.value.toUpperCase())) {
-          let cityName = city.city.replace(e.currentTarget.value, `<span class="hl">${e.currentTarget.value}</span>`)
-          let cityState = city.state.replace(e.currentTarget.value, `<span class="hl">${e.currentTarget.value}</span>`)
-          document
-            .querySelector('.suggestions')
-            .insertAdjacentHTML('beforeend',
-            `<li>
-                <span>${cityName}, ${cityState}</span>
-                <span>${city.population}</span>
-            </li>`
-            )
+      findMatches(e.currentTarget.value, cities).forEach((place) => {
+        const regex = new RegExp(e.currentTarget.value, 'gi')
+        let cityName = place.city.replace(regex, `<span class="hl">${e.currentTarget.value}</span>`)
+        let cityState = place.state.replace(regex, `<span class="hl">${e.currentTarget.value}</span>`)
+        document
+          .querySelector('.suggestions')
+          .insertAdjacentHTML('beforeend',
+          `<li>
+              <span>${cityName}, ${cityState}</span>
+              <span>${place.population}</span>
+          </li>`
+          )
         }
-      })
+      )
     })
   })
-  
 
 </script>
 </body>
