@@ -25,18 +25,20 @@ fetch(endpoint)
     cities = data
   })
   .then(() => {
-    // cities.forEach((city) => {
-    //   document
-    //   .querySelector('.suggestions')
-    //   .insertAdjacentHTML('beforeend', `<li>${city.city}, ${city.state}<span>${city.population}</span></li>`)
-    // })
     document.querySelector('.search').addEventListener('input', (e) => {
       document.querySelector('.suggestions').innerHTML = '';
       cities.forEach((city) => {
         if (city.city.toUpperCase().includes(e.currentTarget.value.toUpperCase()) || city.state.toUpperCase().includes(e.currentTarget.value.toUpperCase())) {
+          let cityName = city.city.replace(e.currentTarget.value, `<span class="hl">${e.currentTarget.value}</span>`)
+          let cityState = city.state.replace(e.currentTarget.value, `<span class="hl">${e.currentTarget.value}</span>`)
           document
-          .querySelector('.suggestions')
-          .insertAdjacentHTML('beforeend', `<li>${city.city}, ${city.state}<span>${city.population}</span></li>`)
+            .querySelector('.suggestions')
+            .insertAdjacentHTML('beforeend',
+            `<li>
+                <span>${cityName}, ${cityState}</span>
+                <span>${city.population}</span>
+            </li>`
+            )
         }
       })
     })
