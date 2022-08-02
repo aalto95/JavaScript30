@@ -7,6 +7,17 @@
 </head>
 <body>
 <script>
+  let keySequence = []
+  const secretCode = 'wesbos'
+
+  window.addEventListener('keyup', (e) => {
+    keySequence.push(e.key)
+    if (keySequence.join('').includes(secretCode)) {
+      cornify_add()
+      keySequence = []
+    }
+
+  })
 </script>
 </body>
 </html>
